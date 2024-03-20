@@ -28,7 +28,7 @@ const SplashPage = () => {
     <div className="flex h-screen overflow-hidden">
       {/* Day side */}
       <motion.div
-        className={`p-8 w-1/2 h-screen bg-gradient-to-br from-blue-400 to-blue-700 flex justify-center items-center ${isDayFullscreen ? 'absolute top-0 left-0 z-50' : ''}`}
+        className={`p-8w-1/2 h-screen bg-gradient-to-br from-blue-400 to-blue-700 justify-center items-center ${isDayFullscreen ? 'absolute top-0 left-0 z-50' : ''}`}
         initial={{ x: 0 }}
         animate={{
           width: isDayFullscreen ? '100%' : hoveredSide === 'left' ? '100%' : '50%',
@@ -45,7 +45,7 @@ const SplashPage = () => {
 
       {/* Night side */}
       <motion.div
-        className={`p-8 w-1/2 h-screen bg-gradient-to-br from-purple-700 to-indigo-900 flex justify-center items-center ${isNightFullscreen ? 'absolute top-0 left-0 z-50' : ''}`}
+        className={`p-8 w-1/2 h-screen bg-gradient-to-br from-purple-700 to-indigo-900 justify-center items-center ${isNightFullscreen ? 'absolute top-0 left-0 z-50' : ''}`}
         initial={{ x: 0 }}
         animate={{
           width: isNightFullscreen ? '100%' : hoveredSide === 'right' ? '100%' : '50%',
