@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import DaySide from './DaySide';
 import NightSide from './NightSide';
+import DayFullscreenContent from './DayFullscreenContent';
+import NightFullscreenContent from './NightFullscreenContent';
 
 const SplashPage = () => {
   const [hoveredSide, setHoveredSide] = useState(null);
@@ -17,47 +19,65 @@ const SplashPage = () => {
   };
 
   const toggleDayFullscreen = () => {
-    setIsDayFullscreen(!isDayFullscreen);
+    if (!isDayFullscreen) {
+      setIsDayFullscreen(true);
+      setIsNightFullscreen(false);
+    }
   };
 
   const toggleNightFullscreen = () => {
-    setIsNightFullscreen(!isNightFullscreen);
+    if (!isNightFullscreen) {
+      setIsNightFullscreen(true);
+      setIsDayFullscreen(false); 
+    }
   };
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex min-h-screen">
       {/* Day side */}
       <motion.div
-        className={`p-8w-1/2 h-screen bg-gradient-to-br from-blue-400 to-blue-700 justify-center items-center ${isDayFullscreen ? 'absolute top-0 left-0 z-50' : ''}`}
+        className={`w-1/2 bg-gradient-to-br from-gray-300 to-gray-400 justify-center items-center relative`}
         initial={{ x: 0 }}
         animate={{
-          width: isDayFullscreen ? '100%' : hoveredSide === 'left' ? '100%' : '50%',
-          transitionEnd: {
-            x: isDayFullscreen ? 0 : null
-          }
+          width: isDayFullscreen || hoveredSide === 'left' ? '250%' : '50%',
         }}
         transition={{ duration: 0.5, ease: 'easeInOut' }}
         onMouseEnter={() => handleMouseEnter('left')}
         onMouseLeave={handleMouseLeave}
+        onClick={toggleDayFullscreen}
       >
-        <DaySide onClick={toggleDayFullscreen} />
+        {isDayFullscreen && (
+          <motion.div
+            className="absolute inset-0 bg-gray-800"
+            initial={{ opacity: 0.5 }}
+            animate={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          ></motion.div>
+        )}
+        {isDayFullscreen ? <DayFullscreenContent onClick={toggleDayFullscreen} /> : <DaySide />}
       </motion.div>
 
       {/* Night side */}
       <motion.div
-        className={`p-8 w-1/2 h-screen bg-gradient-to-br from-purple-700 to-indigo-900 justify-center items-center ${isNightFullscreen ? 'absolute top-0 left-0 z-50' : ''}`}
+        className={`w-1/2 bg-gradient-to-br from-gray-800 to-gray-900 justify-center items-center relative `}
         initial={{ x: 0 }}
         animate={{
-          width: isNightFullscreen ? '100%' : hoveredSide === 'right' ? '100%' : '50%',
-          transitionEnd: {
-            x: isNightFullscreen ? 0 : null
-          }
+          width: isNightFullscreen || hoveredSide === 'right' ? '250%' : '50%',
         }}
         transition={{ duration: 0.5, ease: 'easeInOut' }}
         onMouseEnter={() => handleMouseEnter('right')}
         onMouseLeave={handleMouseLeave}
+        onClick={toggleNightFullscreen}
       >
-        <NightSide onClick={toggleNightFullscreen} />
+        {isNightFullscreen && (
+          <motion.div
+            className="absolute inset-0 bg-black"
+            initial={{ opacity: 0.5 }}
+            animate={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          ></motion.div>
+        )}
+        {isNightFullscreen ? <NightFullscreenContent onClick={toggleNightFullscreen} /> : <NightSide />}
       </motion.div>
     </div>
   );
